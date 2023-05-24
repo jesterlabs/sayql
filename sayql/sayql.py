@@ -1,7 +1,7 @@
 import duckdb
 import pandas as pd
 from langchain import LLMChain, PromptTemplate
-
+from langchain.chat_models import ChatOpenAI
 from sayql.prompt import DEFAULT_PROMPT
 
 # Will need to abstract for multiple datastores
@@ -16,7 +16,7 @@ from sayql.prompt import DEFAULT_PROMPT
 
 
 class SayQL:
-    def __init__(self, df: pd.DataFrame, llm):
+    def __init__(self, df: pd.DataFrame, llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)):
         self.df = df
         self.llm = llm
 
@@ -34,7 +34,9 @@ class SayQL:
         llm_chain = LLMChain(llm=self.llm, prompt=prompt)
         return llm_chain.predict(query=query, schema_str=schema_str)
 
-    def query(self, query: str) -> pd.DataFrame:
+    def query(self, query: str, return_row: bool = True) -> pd.DataFrame:
+        if return_row:
+            query = f"{query} Return the whole row"
         sql: str = self._to_sql(query)
         # global naming for duckdb
         df = self.df
