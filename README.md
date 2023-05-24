@@ -7,7 +7,7 @@ Talk to your data
 
 # Usage
 
-```
+```python
 df = pd.read_csv('https://raw.githubusercontent.com/scpike/us-state-county-zip/master/geo-data.csv')
 
 llm = OpenAIChat(model="gpt-3.5-turbo", temperature=0, openai_api_key=OPENAI_API_KEY)
