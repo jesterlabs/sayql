@@ -1,4 +1,4 @@
-# sayql
+# sayql [WIP]
 Talk to your data
 
 
